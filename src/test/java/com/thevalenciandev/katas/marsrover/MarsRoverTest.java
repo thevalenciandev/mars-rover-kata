@@ -29,4 +29,12 @@ class MarsRoverTest {
         String finishingPoint = marsRover.execute("R");
         assertEquals("0:0:E", finishingPoint);
     }
+
+    @Test
+    void canRotateLeft_FromNorth() {
+        var marsRover = new MarsRover(new Grid(10,10));
+
+        String finishingPoint = marsRover.execute("L");
+        assertEquals("0:0:W", finishingPoint);
+    }
 }

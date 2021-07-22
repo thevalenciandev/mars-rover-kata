@@ -29,6 +29,8 @@ public class MarsRover {
                 }
             } else if (move == 'R') {
                 currentDir.rotateRight();
+            } else if (move == 'L') {
+                currentDir.rotateLeft();
             }
         }
 
@@ -52,6 +54,17 @@ public class MarsRover {
             };
         }
 
+        public void rotateLeft() {
+            currentDir = switch (currentDir) {
+                case 'N' -> 'W';
+                case 'W' -> 'S';
+                case 'S' -> 'E';
+                case 'E' -> 'N';
+
+                default -> throw new IllegalStateException("Unexpected value: " + currentDir);
+            };
+        }
+
         char get() {
             return currentDir;
         }
@@ -60,5 +73,6 @@ public class MarsRover {
         public String toString() {
             return String.valueOf(currentDir);
         }
+
     }
 }
