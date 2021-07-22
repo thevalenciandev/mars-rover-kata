@@ -11,7 +11,15 @@ class MarsRoverTest {
         var marsRover = new MarsRover(new Grid(10,10));
 
         String finishingPoint = marsRover.execute("M");
-        assertEquals("1:0:N", finishingPoint);
+        assertEquals("0:1:N", finishingPoint); // x:y:direction
+    }
+
+    @Test
+    void canMoveOnce_East() {
+        var marsRover = new MarsRover(new Grid(10,10));
+
+        String finishingPoint = marsRover.execute("RM");
+        assertEquals("1:0:E", finishingPoint);
     }
 
     @Test

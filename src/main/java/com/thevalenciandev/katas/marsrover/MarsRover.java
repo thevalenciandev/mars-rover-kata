@@ -25,6 +25,8 @@ public class MarsRover {
         public void apply(char move) {
             if (move == 'M') {
                 if (currentDir.get() == 'N') {
+                    currentY = (currentY + 1) % grid.lenX();
+                } else if (currentDir.get() == 'E') {
                     currentX = (currentX + 1) % grid.lenX();
                 }
             } else if (move == 'R') {
