@@ -20,18 +20,45 @@ public class MarsRover {
 
         int currentX = 0;
         int currentY = 0;
-        char currentDir = 'N';
+        Direction currentDir = new Direction();
 
         public void apply(char move) {
             if (move == 'M') {
-                if (currentDir == 'N') {
+                if (currentDir.get() == 'N') {
                     currentX = (currentX + 1) % grid.lenX();
                 }
+            } else if (move == 'R') {
+                currentDir.rotateRight();
             }
         }
 
         public String get() {
             return currentX + ":" + currentY + ":" + currentDir;
+        }
+    }
+
+    private final class Direction {
+
+        char currentDir = 'N';
+
+        void rotateRight() {
+            currentDir = switch (currentDir) {
+                case 'N' -> 'E';
+                case 'E' -> 'S';
+                case 'S' -> 'W';
+                case 'W' -> 'N';
+
+                default -> throw new IllegalStateException("Unexpected value: " + currentDir);
+            };
+        }
+
+        char get() {
+            return currentDir;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(currentDir);
         }
     }
 }
