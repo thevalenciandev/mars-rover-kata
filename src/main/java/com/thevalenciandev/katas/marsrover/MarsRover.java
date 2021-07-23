@@ -28,6 +28,8 @@ public class MarsRover {
                     currentY = (currentY + 1) % grid.lenX();
                 } else if (currentDir.get() == 'E') {
                     currentX = (currentX + 1) % grid.lenX();
+                } else if (currentDir.get() == 'S') {
+                    currentY = (currentY - 1) % grid.lenX();
                 }
             } else if (move == 'R') {
                 currentDir.rotateRight();
