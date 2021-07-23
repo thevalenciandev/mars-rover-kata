@@ -12,4 +12,8 @@ public class Grid {
     public int lenX() {
         return lenX;
     }
+
+    public int lenY() {
+        return lenY;
+    }
 }

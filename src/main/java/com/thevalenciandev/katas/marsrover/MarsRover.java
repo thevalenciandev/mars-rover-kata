@@ -25,11 +25,11 @@ public class MarsRover {
         public void apply(char move) {
             if (move == 'M') {
                 if (currentDir.get() == 'N') {
-                    currentY = (currentY + 1) % grid.lenX();
+                    currentY = (currentY + 1) % grid.lenY();
                 } else if (currentDir.get() == 'E') {
                     currentX = (currentX + 1) % grid.lenX();
                 } else if (currentDir.get() == 'S') {
-                    currentY = (currentY - 1) % grid.lenX();
+                    currentY = (currentY - 1) % grid.lenY();
                 }
             } else if (move == 'R') {
                 currentDir.rotateRight();
@@ -43,7 +43,7 @@ public class MarsRover {
         }
     }
 
-    private final class Direction {
+    private static final class Direction {
 
         char currentDir = 'N';
 

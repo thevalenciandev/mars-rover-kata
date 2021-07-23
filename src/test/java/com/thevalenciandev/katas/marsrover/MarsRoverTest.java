@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class MarsRoverTest {
 
     @ParameterizedTest
-    @MethodSource(value = "canMoveToAllDirectionsArgs")
+    @MethodSource("canMoveToAllDirectionsArgs")
     void canMoveToAllDirections(String command, String expectedFinishingPoint) {
         var marsRover = new MarsRover(new Grid(10, 10));
 
@@ -29,27 +29,20 @@ class MarsRoverTest {
         );
     }
 
-    @Test
-    void canWrapAroundNorth_xAxis() {
-        var marsRover = new MarsRover(new Grid(10,10));
+    @ParameterizedTest
+    @MethodSource("canWrapAroundArgs")
+    void canWrapAround(String command, String expectedFinishingPoint) {
+        var marsRover = new MarsRover(new Grid(10, 8));
 
-        String finishingPoint = marsRover.execute("M".repeat(10));
-        assertEquals("0:0:N", finishingPoint);
+        String finishingPoint = marsRover.execute(command);
+        assertEquals(expectedFinishingPoint, finishingPoint);
     }
 
-    @Test
-    void canRotateRight_FromNorth() {
-        var marsRover = new MarsRover(new Grid(10,10));
-
-        String finishingPoint = marsRover.execute("R");
-        assertEquals("0:0:E", finishingPoint);
+    private static Stream<Arguments> canWrapAroundArgs() {
+        return Stream.of(
+                Arguments.of("M".repeat(8), "0:0:N"),
+                Arguments.of("R" + "M".repeat(10), "0:0:E")
+        );
     }
 
-    @Test
-    void canRotateLeft_FromNorth() {
-        var marsRover = new MarsRover(new Grid(10,10));
-
-        String finishingPoint = marsRover.execute("L");
-        assertEquals("0:0:W", finishingPoint);
-    }
 }
