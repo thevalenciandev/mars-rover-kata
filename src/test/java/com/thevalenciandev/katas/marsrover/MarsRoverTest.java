@@ -40,8 +40,10 @@ class MarsRoverTest {
 
     private static Stream<Arguments> canWrapAroundArgs() {
         return Stream.of(
-                Arguments.of("M".repeat(8), "0:0:N"),
-                Arguments.of("R" + "M".repeat(10), "0:0:E")
+                Arguments.of("L" + "M", "9:0:W"),
+                Arguments.of("L" + "M".repeat(10), "0:0:W"),
+                Arguments.of("RR" + "M", "0:7:S"),
+                Arguments.of("RR" + "M".repeat(8), "0:0:S")
         );
     }
 

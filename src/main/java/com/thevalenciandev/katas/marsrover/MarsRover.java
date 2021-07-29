@@ -29,7 +29,9 @@ public class MarsRover {
                 } else if (currentDir.get() == 'E') {
                     currentX = (currentX + 1) % grid.lenX();
                 } else if (currentDir.get() == 'S') {
-                    currentY = (currentY - 1) % grid.lenY();
+                    currentY = currentY == 0 ? grid.lenY() - 1 : (currentY - 1) % grid.lenY();
+                } else if (currentDir.get() == 'W') {
+                    currentX = currentX == 0 ? grid.lenX() - 1 : (currentX - 1) % grid.lenX();
                 }
             } else if (move == 'R') {
                 currentDir.rotateRight();
