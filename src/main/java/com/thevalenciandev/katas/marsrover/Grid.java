@@ -37,15 +37,15 @@ public final class Grid {
         this.obstacles = obstacles;
     }
 
-    public int lenX() {
+    int lenX() {
         return lenX;
     }
 
-    public int lenY() {
+    int lenY() {
         return lenY;
     }
 
-    public boolean isObstacle(Coordinate targetCoordinate) {
+    boolean isObstacle(Coordinate targetCoordinate) {
         return obstacles.contains(targetCoordinate);
     }
 }

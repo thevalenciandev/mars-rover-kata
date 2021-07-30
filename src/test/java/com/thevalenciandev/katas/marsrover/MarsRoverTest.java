@@ -48,9 +48,9 @@ class MarsRoverTest {
 
     @ParameterizedTest
     @MethodSource("canReportObstaclesArgs")
-    void canReportObstacles(String command, String expectedFinishingPoint) {
+    void canReportObstacles(int obstacleX, int obstacleY, String command, String expectedFinishingPoint) {
         var marsRover = new MarsRover(new Grid.Builder(10, 8)
-                .withObstacle(0, 3).build());
+                .withObstacle(obstacleX, obstacleY).build());
 
         String finishingPoint = marsRover.execute(command);
         assertEquals(expectedFinishingPoint, finishingPoint);
@@ -58,7 +58,10 @@ class MarsRoverTest {
 
     private static Stream<Arguments> canReportObstaclesArgs() {
         return Stream.of(
-                Arguments.of("MMM", "O:0:2:N")
+                Arguments.of(0, 3, "MMM", "O:0:2:N"),
+                Arguments.of(3, 0, "RMMM","O:2:0:E"),
+                Arguments.of(9, 0, "LM",  "O:0:0:W"),
+                Arguments.of(0, 7, "LLM", "O:0:0:S")
         );
     }
 }

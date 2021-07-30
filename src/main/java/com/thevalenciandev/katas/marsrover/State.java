@@ -4,9 +4,9 @@ final class State {
 
     private final Grid grid;
 
-    Coordinate currentCoordinate = new Coordinate(0, 0);
-    Direction currentDir = new Direction();
-    boolean foundObstacle = false;
+    private Coordinate currentCoordinate = new Coordinate(0, 0);
+    private Direction currentDir = new Direction();
+    private boolean foundObstacle = false;
 
     public State(Grid grid) {
         this.grid = grid;
@@ -20,6 +20,11 @@ final class State {
         } else if (move == 'L') {
             currentDir.rotateLeft();
         }
+    }
+
+    public String get() {
+        return (foundObstacle ? "O:" : "")
+                + currentCoordinate.x() + ":" + currentCoordinate.y() + ":" + currentDir;
     }
 
     private void move() {
@@ -55,16 +60,11 @@ final class State {
         }
     }
 
-    public String get() {
-        return (foundObstacle ? "O:" : "")
-                + currentCoordinate.x() + ":" + currentCoordinate.y() + ":" + currentDir;
-    }
-
     private static final class Direction {
 
-        char currentDir = 'N';
+        private char currentDir = 'N';
 
-        void rotateRight() {
+        private void rotateRight() {
             currentDir = switch (currentDir) {
                 case 'N' -> 'E';
                 case 'E' -> 'S';
@@ -75,7 +75,7 @@ final class State {
             };
         }
 
-        public void rotateLeft() {
+        private void rotateLeft() {
             currentDir = switch (currentDir) {
                 case 'N' -> 'W';
                 case 'W' -> 'S';
@@ -86,7 +86,7 @@ final class State {
             };
         }
 
-        char get() {
+        private char get() {
             return currentDir;
         }
 
