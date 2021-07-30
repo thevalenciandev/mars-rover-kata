@@ -1,6 +1,5 @@
 package com.thevalenciandev.katas.marsrover;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,7 +13,7 @@ class MarsRoverTest {
     @ParameterizedTest
     @MethodSource("canMoveToAllDirectionsArgs")
     void canMoveToAllDirections(String command, String expectedFinishingPoint) {
-        var marsRover = new MarsRover(new Grid(10, 10));
+        var marsRover = new MarsRover(new Grid.Builder(10, 10).build());
 
         String finishingPoint = marsRover.execute(command);
         assertEquals(expectedFinishingPoint, finishingPoint); // x:y:direction
@@ -32,7 +31,7 @@ class MarsRoverTest {
     @ParameterizedTest
     @MethodSource("canWrapAroundArgs")
     void canWrapAround(String command, String expectedFinishingPoint) {
-        var marsRover = new MarsRover(new Grid(10, 8));
+        var marsRover = new MarsRover(new Grid.Builder(10, 8).build());
 
         String finishingPoint = marsRover.execute(command);
         assertEquals(expectedFinishingPoint, finishingPoint);
@@ -42,9 +41,24 @@ class MarsRoverTest {
         return Stream.of(
                 Arguments.of("L" + "M", "9:0:W"),
                 Arguments.of("L" + "M".repeat(10), "0:0:W"),
-                Arguments.of("RR" + "M", "0:7:S"),
+                Arguments.of("RRM", "0:7:S"),
                 Arguments.of("RR" + "M".repeat(8), "0:0:S")
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("canReportObstaclesArgs")
+    void canReportObstacles(String command, String expectedFinishingPoint) {
+        var marsRover = new MarsRover(new Grid.Builder(10, 8)
+                .withObstacle(0, 3).build());
+
+        String finishingPoint = marsRover.execute(command);
+        assertEquals(expectedFinishingPoint, finishingPoint);
+    }
+
+    private static Stream<Arguments> canReportObstaclesArgs() {
+        return Stream.of(
+                Arguments.of("MMM", "O:0:2:N")
+        );
+    }
 }

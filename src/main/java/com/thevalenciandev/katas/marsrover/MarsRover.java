@@ -21,6 +21,7 @@ public class MarsRover {
         int currentX = 0;
         int currentY = 0;
         Direction currentDir = new Direction();
+        boolean foundObstacle = false;
 
         public void apply(char move) {
             if (move == 'M') {
@@ -34,7 +35,12 @@ public class MarsRover {
 
         private void move() {
             if (currentDir.get() == 'N') {
-                currentY = (currentY + 1) % grid.lenY();
+                int nextY = (this.currentY + 1) % grid.lenY();
+                if (grid.isObstacle(currentX, nextY)) {
+                    foundObstacle = true;
+                    return;
+                }
+                this.currentY = nextY;
             } else if (currentDir.get() == 'E') {
                 currentX = (currentX + 1) % grid.lenX();
             } else if (currentDir.get() == 'S') {
@@ -42,10 +48,12 @@ public class MarsRover {
             } else if (currentDir.get() == 'W') {
                 currentX = currentX == 0 ? grid.lenX() - 1 : (currentX - 1) % grid.lenX();
             }
+            foundObstacle = false;
         }
 
         public String get() {
-            return currentX + ":" + currentY + ":" + currentDir;
+            return (foundObstacle ? "O:" : "")
+                    + currentX + ":" + currentY + ":" + currentDir;
         }
 
         private static final class Direction {
