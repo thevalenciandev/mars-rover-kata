@@ -9,7 +9,7 @@ public final class Grid {
 
         private final int lenX;
         private final int lenY;
-        private Set<Obstacle> obstacles = new HashSet<>();
+        private Set<Coordinate> obstacles = new HashSet<>();
 
         public Builder(int lenX, int lenY) {
             this.lenX = lenX;
@@ -17,7 +17,7 @@ public final class Grid {
         }
 
         public Builder withObstacle(int x, int y) {
-            obstacles.add(new Obstacle(x, y));
+            obstacles.add(new Coordinate(x, y));
             return this;
         }
 
@@ -27,14 +27,11 @@ public final class Grid {
 
     }
 
-    private static record Obstacle(int x, int y) {
-    }
-
     private final int lenX;
     private final int lenY;
-    private final Set<Obstacle> obstacles;
+    private final Set<Coordinate> obstacles;
 
-    private Grid(int lenX, int lenY, Set<Obstacle> obstacles) {
+    private Grid(int lenX, int lenY, Set<Coordinate> obstacles) {
         this.lenX = lenX;
         this.lenY = lenY;
         this.obstacles = obstacles;
@@ -48,7 +45,7 @@ public final class Grid {
         return lenY;
     }
 
-    public boolean isObstacle(int targetX, int targetY) {
-        return obstacles.contains(new Obstacle(targetX, targetY));
+    public boolean isObstacle(Coordinate targetCoordinate) {
+        return obstacles.contains(targetCoordinate);
     }
 }
