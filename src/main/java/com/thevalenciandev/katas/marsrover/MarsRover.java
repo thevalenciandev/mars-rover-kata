@@ -18,8 +18,7 @@ public class MarsRover {
 
     private final class State {
 
-        int currentX = 0;
-        int currentY = 0;
+        Coordinate currentCoordinate = new Coordinate(0, 0);
         Direction currentDir = new Direction();
         boolean foundObstacle = false;
 
@@ -34,26 +33,44 @@ public class MarsRover {
         }
 
         private void move() {
-            if (currentDir.get() == 'N') {
-                int nextY = (this.currentY + 1) % grid.lenY();
-                if (grid.isObstacle(currentX, nextY)) {
-                    foundObstacle = true;
-                    return;
-                }
-                this.currentY = nextY;
-            } else if (currentDir.get() == 'E') {
-                currentX = (currentX + 1) % grid.lenX();
-            } else if (currentDir.get() == 'S') {
-                currentY = currentY == 0 ? grid.lenY() - 1 : (currentY - 1) % grid.lenY();
-            } else if (currentDir.get() == 'W') {
-                currentX = currentX == 0 ? grid.lenX() - 1 : (currentX - 1) % grid.lenX();
+            Coordinate nextCoordinate = calculateNextCoordinate();
+            if (nextCoordinate == null) {
+                return; // unknown, just ignore
             }
+            if (grid.isObstacle(nextCoordinate.x(), nextCoordinate.y())) {
+                foundObstacle = true;
+                return;
+            }
+            // update coordinates, no obstacle found.
+            this.currentCoordinate = nextCoordinate;
             foundObstacle = false;
+        }
+
+        private Coordinate calculateNextCoordinate() {
+            if (currentDir.get() == 'N') {
+                int nextY = (this.currentCoordinate.y() + 1) % grid.lenY();
+                return new Coordinate(currentCoordinate.x(), nextY);
+            } else if (currentDir.get() == 'E') {
+                int nextX = (this.currentCoordinate.x() + 1) % grid.lenX();
+                return new Coordinate(nextX, currentCoordinate.y());
+            } else if (currentDir.get() == 'S') {
+                int nextY = currentCoordinate.y() == 0 ? grid.lenY() - 1 : (currentCoordinate.y() - 1) % grid.lenY();
+                return new Coordinate(currentCoordinate.x(), nextY);
+            } else if (currentDir.get() == 'W') {
+                int nextX = currentCoordinate.x() == 0 ? grid.lenX() - 1 : (currentCoordinate.x() - 1) % grid.lenX();
+                return new Coordinate(nextX, currentCoordinate.y());
+            } else {
+                // unknown direction
+                return null;
+            }
         }
 
         public String get() {
             return (foundObstacle ? "O:" : "")
-                    + currentX + ":" + currentY + ":" + currentDir;
+                    + currentCoordinate.x() + ":" + currentCoordinate.y() + ":" + currentDir;
+        }
+
+        private static record Coordinate(int x, int y) {
         }
 
         private static final class Direction {
