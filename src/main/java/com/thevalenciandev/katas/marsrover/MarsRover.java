@@ -24,15 +24,7 @@ public class MarsRover {
 
         public void apply(char move) {
             if (move == 'M') {
-                if (currentDir.get() == 'N') {
-                    currentY = (currentY + 1) % grid.lenY();
-                } else if (currentDir.get() == 'E') {
-                    currentX = (currentX + 1) % grid.lenX();
-                } else if (currentDir.get() == 'S') {
-                    currentY = currentY == 0 ? grid.lenY() - 1 : (currentY - 1) % grid.lenY();
-                } else if (currentDir.get() == 'W') {
-                    currentX = currentX == 0 ? grid.lenX() - 1 : (currentX - 1) % grid.lenX();
-                }
+                move();
             } else if (move == 'R') {
                 currentDir.rotateRight();
             } else if (move == 'L') {
@@ -40,45 +32,58 @@ public class MarsRover {
             }
         }
 
+        private void move() {
+            if (currentDir.get() == 'N') {
+                currentY = (currentY + 1) % grid.lenY();
+            } else if (currentDir.get() == 'E') {
+                currentX = (currentX + 1) % grid.lenX();
+            } else if (currentDir.get() == 'S') {
+                currentY = currentY == 0 ? grid.lenY() - 1 : (currentY - 1) % grid.lenY();
+            } else if (currentDir.get() == 'W') {
+                currentX = currentX == 0 ? grid.lenX() - 1 : (currentX - 1) % grid.lenX();
+            }
+        }
+
         public String get() {
             return currentX + ":" + currentY + ":" + currentDir;
         }
+
+        private static final class Direction {
+
+            char currentDir = 'N';
+
+            void rotateRight() {
+                currentDir = switch (currentDir) {
+                    case 'N' -> 'E';
+                    case 'E' -> 'S';
+                    case 'S' -> 'W';
+                    case 'W' -> 'N';
+
+                    default -> throw new IllegalStateException("Unexpected value: " + currentDir);
+                };
+            }
+
+            public void rotateLeft() {
+                currentDir = switch (currentDir) {
+                    case 'N' -> 'W';
+                    case 'W' -> 'S';
+                    case 'S' -> 'E';
+                    case 'E' -> 'N';
+
+                    default -> throw new IllegalStateException("Unexpected value: " + currentDir);
+                };
+            }
+
+            char get() {
+                return currentDir;
+            }
+
+            @Override
+            public String toString() {
+                return String.valueOf(currentDir);
+            }
+
+        }
     }
 
-    private static final class Direction {
-
-        char currentDir = 'N';
-
-        void rotateRight() {
-            currentDir = switch (currentDir) {
-                case 'N' -> 'E';
-                case 'E' -> 'S';
-                case 'S' -> 'W';
-                case 'W' -> 'N';
-
-                default -> throw new IllegalStateException("Unexpected value: " + currentDir);
-            };
-        }
-
-        public void rotateLeft() {
-            currentDir = switch (currentDir) {
-                case 'N' -> 'W';
-                case 'W' -> 'S';
-                case 'S' -> 'E';
-                case 'E' -> 'N';
-
-                default -> throw new IllegalStateException("Unexpected value: " + currentDir);
-            };
-        }
-
-        char get() {
-            return currentDir;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(currentDir);
-        }
-
-    }
 }
